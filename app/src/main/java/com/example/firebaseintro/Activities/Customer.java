@@ -1,4 +1,4 @@
-package com.example.firebaseintro;
+package com.example.firebaseintro.Activities;
 
 public class Customer {
 
