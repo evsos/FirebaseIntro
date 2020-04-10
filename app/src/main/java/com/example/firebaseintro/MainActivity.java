@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     Customer customer = new Customer("Lena","Neig","gina@mail.com",94 );
                     databaseReference.setValue(customer);
 
-                    Intent intent = new Intent(MainActivity.this, PostActivity.class);
+                    Intent intent = new Intent(MainActivity.this, PostsListActivity.class);
                     startActivity(intent);
 
                 }else{
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                if(task.isSuccessful()){
                 FirebaseUser user =mAuth.getCurrentUser();
                    Toast.makeText(MainActivity.this,"registered new user",Toast.LENGTH_LONG).show();
-                   Intent intent = new Intent(MainActivity.this, PostActivity.class);
+                   Intent intent = new Intent(MainActivity.this, PostsListActivity.class);
                    startActivity(intent);
 
                }else{
