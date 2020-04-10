@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,8 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mDatabaseReference;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private EditText etEmail, etPassword;
@@ -56,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("message");
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mDatabase.getReference("message");
 
-        databaseReference.setValue("Hello firebase");
+        mDatabaseReference.setValue("Hello firebase");
 
         /*databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -124,10 +126,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("userLogin","createdUserWithEmailAndPass: success!");
                     Toast.makeText(MainActivity.this,"user login: success",Toast.LENGTH_LONG).show();
                     FirebaseUser user = mAuth.getCurrentUser();
-                    Customer customer = new Customer("Lena","Neig","gina@mail.com",94 );
-                    databaseReference.setValue(customer);
 
-                    Intent intent = new Intent(MainActivity.this, PostsListActivity.class);
+                    Intent intent = new Intent(MainActivity.this, PostActivity.class);
                     startActivity(intent);
                     finish();
 
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                if(task.isSuccessful()){
                 FirebaseUser user =mAuth.getCurrentUser();
                    Toast.makeText(MainActivity.this,"registered new user",Toast.LENGTH_LONG).show();
-                   Intent intent = new Intent(MainActivity.this, PostsListActivity.class);
+                   Intent intent = new Intent(MainActivity.this, PostActivity.class);
                    startActivity(intent);
 
                }else{
@@ -161,4 +161,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_signout:
+                mAuth.signOut();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

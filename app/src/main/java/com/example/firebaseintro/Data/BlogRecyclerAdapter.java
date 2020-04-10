@@ -12,21 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebaseintro.Model.Blog;
 import com.example.firebaseintro.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.List;
 
 public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Blog> blogList;
+    public Context context;
+    public List<Blog> blogList;
 
     public BlogRecyclerAdapter(Context context, List<Blog> blogList) {
         this.context = context;
         this.blogList = blogList;
     }
 
-    @NonNull
     @Override
     public BlogRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
@@ -52,6 +52,10 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
             holder.timestamp.setText(formattedDate);
 
             imageUrl = blog.getImage();
+
+            //TODO Use Picasso library to load image
+
+            Picasso.get().load(imageUrl).into(holder.image);
     }
 
     @Override

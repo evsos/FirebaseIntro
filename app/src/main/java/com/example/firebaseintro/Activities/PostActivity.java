@@ -3,6 +3,7 @@ package com.example.firebaseintro.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.firebaseintro.Data.BlogRecyclerAdapter;
+import com.example.firebaseintro.Model.Blog;
 import com.example.firebaseintro.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PostActivity extends AppCompatActivity {
@@ -42,20 +46,22 @@ public class PostActivity extends AppCompatActivity {
     private StorageReference mStorage;
     private static final int GALLERY_CODE=1;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        ivImage=findViewById(R.id.ivImage);
-        etTitle=findViewById(R.id.etTitle);
-        etDescription=findViewById(R.id.etDescription);
-        btPublish=findViewById(R.id.btPublish);
-
         mAuth=FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
         mStorage= FirebaseStorage.getInstance().getReference();
         mDatabaseReference=FirebaseDatabase.getInstance().getReference().child("MBlog");
+
+        ivImage= (ImageView) findViewById(R.id.ivImage);
+        etTitle= (EditText) findViewById(R.id.etTitle);
+        etDescription= (EditText) findViewById(R.id.etDescription);
+        btPublish= (Button) findViewById(R.id.btPublish);
 
 
         btPublish.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +87,7 @@ public class PostActivity extends AppCompatActivity {
         final String title = etTitle.getText().toString().trim();
         final String description =etDescription.getText().toString().trim();
 
-           if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description) && mImageURI!=null){
+          if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description) && mImageURI!=null){
 
               /* Blog blog = new Blog("Title","description","imageURL","timestamp","userID");
                 mDatabaseReference.setValue(blog).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -101,7 +107,7 @@ public class PostActivity extends AppCompatActivity {
                 DatabaseReference newPost = mDatabaseReference.push();
 
                 Map<String,String> dataToSave = new HashMap<>();
-                dataToSave.put("title",title);
+                dataToSave.put("title", title);
                 dataToSave.put("description",description);
                 dataToSave.put("image",mImageURI.toString());
                 dataToSave.put("timestamp",String.valueOf(java.lang.System.currentTimeMillis()));
@@ -109,9 +115,11 @@ public class PostActivity extends AppCompatActivity {
 
                 newPost.setValue(dataToSave);
 
+                startActivity(new Intent(PostActivity.this,PostsListActivity.class));
+                finish();
             }
             });
-           }
+    }
     }
 
 
